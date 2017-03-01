@@ -35,8 +35,10 @@ public class SpitterController {
     }
 
     @RequestMapping(value = "/register", method = GET)
-    public String showRegistrationForm() {
+    public String showRegistrationForm(Model model) {
         logger.debug("--------------SpitterController showRegistrationForm");
+
+        model.addAttribute("spitter", new Spitter());
 
         return "registerForm";
     }
@@ -49,6 +51,8 @@ public class SpitterController {
         logger.debug("--------------SpitterController processRegistration");
 
         if (errors.hasErrors()) {
+            logger.debug("--------------SpitterController errors accur");
+
             return "registerForm";
         }
         spitterRepository.save(spitter);
