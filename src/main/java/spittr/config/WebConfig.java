@@ -16,6 +16,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 @Configuration
 @EnableWebMvc
@@ -34,10 +38,34 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        return resolver;
 //    }
 
+//    @Bean
+//    public ViewResolver viewResolver() {
+//        return new TilesViewResolver();
+//    }
+
     @Bean
-    public ViewResolver viewResolver() {
-        return new TilesViewResolver();
+    public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine);
+        return viewResolver;
     }
+
+    @Bean
+    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+        return templateEngine;
+    }
+
+    @Bean
+    public TemplateResolver templateResolver() {
+        TemplateResolver templateResolver = new ServletContextTemplateResolver();
+        templateResolver.setPrefix("/WEB-INF/views/html/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML5");
+        return templateResolver;
+    }
+
 
 //    @Bean
 //    public SpittleRepositoryImpl spittleRepository() {
@@ -49,11 +77,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // TODO Auto-generated method stub
-        super.addResourceHandlers(registry);
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        // TODO Auto-generated method stub
+//        super.addResourceHandlers(registry);
+//    }
 
     // Messages
     @Bean
@@ -65,15 +93,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     // Tiles
-    @Bean
-    public TilesConfigurer tilesConfigurer() {
-        TilesConfigurer tiles = new TilesConfigurer();
-        tiles.setDefinitions(new String[]{
-                "/WEB-INF/layout/tiles.xml",
-                "/WEB-INF/views/**/tiles.xml"
-        });
-        tiles.setCheckRefresh(true);
-        return tiles;
-    }
+//    @Bean
+//    public TilesConfigurer tilesConfigurer() {
+//        TilesConfigurer tiles = new TilesConfigurer();
+//        tiles.setDefinitions(new String[]{
+//                "/WEB-INF/layout/tiles.xml",
+//                "/WEB-INF/views/**/tiles.xml"
+//        });
+//        tiles.setCheckRefresh(true);
+//        return tiles;
+//    }
 
 }
