@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spitter</title>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+<div class="listTitle">
+    <h1>Recent Spitter</h1>
+    <ul class="spittleList">
+        <li th:each="items : ${spitterList}">
+            <div class="spitterUsername" th:text="${items.username}"/>
+            <span class="spittleEmail" th:text="${items.email}"></span>
+            <div>
+                <span class="spittleName" th:text="${items.firstName}"></span>,
+                <span class="spittleName" th:text="${items.lastName}"></span>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

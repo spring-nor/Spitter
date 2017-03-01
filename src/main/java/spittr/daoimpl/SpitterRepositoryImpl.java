@@ -18,7 +18,7 @@ public class SpitterRepositoryImpl implements SpitterRepository {
     public SpitterRepositoryImpl() {
         String username = "utente";
         String password = "000";
-        String firstName = "Utente";
+        String firstName = "FirstName";
         String lastName = "LastName";
         String email = "@mail.net";
 
