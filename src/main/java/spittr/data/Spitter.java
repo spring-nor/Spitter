@@ -3,11 +3,14 @@ package spittr.data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Email;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Spitter {
+
+    private MultipartFile profilePicture;
 
     private Long id;
 
@@ -35,16 +38,21 @@ public class Spitter {
     }
 
     public Spitter(String username, String password, String firstName, String lastName, String email) {
-        this(null, username, password, firstName, lastName, email);
+        this(null, username, password, firstName, lastName, email, null);
     }
 
-    public Spitter(Long id, String username, String password, String firstName, String lastName, String email) {
+    public Spitter(Long id, String username, String password, String firstName, String lastName, String email, MultipartFile profilePicture) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.profilePicture = profilePicture;
+    }
+
+    public Spitter(String username, String password, String firstName, String lastName, String email, MultipartFile profilePicture) {
+        this(null, username, password, firstName, lastName, email, profilePicture);
     }
 
     public String getUsername() {
@@ -93,6 +101,18 @@ public class Spitter {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Spitter toSpitter() {
+        return new Spitter(username, password, firstName, lastName, email, profilePicture);
+    }
+
+    public MultipartFile getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(MultipartFile profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     @Override

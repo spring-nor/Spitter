@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import spittr.data.Spittle;
 import spittr.data.SpittleRepository;
+import spittr.exception.SpittleNotFoundException;
 
 @Controller
 @RequestMapping("/spittles")
@@ -57,9 +59,13 @@ public class SpittleController {
             @PathVariable("spittleId") long spittleId,
             Model model) {
         logger.debug("--------------spittle");
+        Spittle spittle = spittleRepository.findOne(spittleId);
+        if (spittle == null) {
+            throw new SpittleNotFoundException();
+        }
 
         model.addAttribute("spittle",
-                spittleRepository.findOne(spittleId));
+                spittle);
         return "spittle";
     }
 

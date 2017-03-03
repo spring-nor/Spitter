@@ -25,7 +25,7 @@ public class SpittleRepositoryImpl implements SpittleRepository {
 //        this.spittles = spittles;
 //    }
 
-//    @Autowired
+    //    @Autowired
     public SpittleRepositoryImpl() {
         List<Spittle> spittles = new ArrayList<Spittle>();
         for (int i = 0; i < 500; i++) {
@@ -51,7 +51,11 @@ public class SpittleRepositoryImpl implements SpittleRepository {
     }
 
     public Spittle findOne(long id) {
-        return this.spittles.get((int) id);
+        try {
+            return this.spittles.get((int) id);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public void save(Spittle spittle) {

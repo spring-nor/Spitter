@@ -24,7 +24,7 @@ public class SpitterRepositoryImpl implements SpitterRepository {
 
         List<Spitter> spitter = new ArrayList<Spitter>();
         for (int i = 0; i < 10; i++) {
-            spitter.add(new Spitter((long) i, username + i, password + i, firstName + i, lastName + i, i + email));
+            spitter.add(new Spitter((long) i, username + i, password + i, firstName + i, lastName + i, i + email, null));
         }
 
         this.spitter = spitter;
