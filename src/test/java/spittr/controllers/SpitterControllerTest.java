@@ -36,7 +36,7 @@ public class SpitterControllerTest {
   public void shouldProcessRegistration() throws Exception {
     SpitterRepository mockRepository = mock(SpitterRepository.class);
     Spitter unsaved = new Spitter("jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
-    Spitter saved = new Spitter(24L, "jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
+    Spitter saved = new Spitter("jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
     when(mockRepository.save(unsaved)).thenReturn(saved);
 
     SpitterController controller = new SpitterController(mockRepository);

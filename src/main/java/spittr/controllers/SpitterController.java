@@ -60,7 +60,8 @@ public class SpitterController {
         Spitter spitter = spitterForm.toSpitter();
         spitterRepository.save(spitter);
 
-        if (!spitter.getProfilePicture().isEmpty())
+        if (spitter.getProfilePicture() != null &&
+                !spitter.getProfilePicture().isEmpty())
             spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
 
         return "redirect:/spitter/" + spitter.getUsername();

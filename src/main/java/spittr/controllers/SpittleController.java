@@ -5,13 +5,16 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import spittr.data.Spittle;
 import spittr.data.SpittleRepository;
+import spittr.exception.DuplicateSpittleException;
 import spittr.exception.SpittleNotFoundException;
+
+import java.util.Date;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("/spittles")
@@ -47,6 +50,8 @@ public class SpittleController {
 
         logger.debug("--------------SpittleController spittles");
 
+        model.addAttribute("spittle", new Spittle());
+
         model.addAttribute("spittleList",
                 spittleRepository.findSpittles(max, count));
 
@@ -78,6 +83,23 @@ public class SpittleController {
         return "spittle";
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public String saveSpittle(Spittle spittleForm, Model model) {
+        spittleRepository.save(new Spittle(null, spittleForm.getMessage(), new Date(),
+                spittleForm.getLongitude(), spittleForm.getLatitude()));
+        return "redirect:/spittles";
+    }
+
+//    @RequestMapping(method = RequestMethod.POST)
+//    public String saveSpittle(Spittle spittleForm, Model model) {
+//        try {
+//            spittleRepository.save(new Spittle(null, spittleForm.getMessage(), new Date(),
+//                    spittleForm.getLongitude(), spittleForm.getLatitude()));
+//            return "redirect:/spittles";
+//        } catch (DuplicateSpittleException e) {
+//            return "error/duplicate";
+//        }
+//    }
 
 //  @RequestMapping(method= RequestMethod.POST)
 //  public String saveSpittle(SpittleForm form, Model model) throws Exception {
@@ -85,5 +107,10 @@ public class SpittleController {
 //        form.getLongitude(), form.getLatitude()));
 //    return "redirect:/spittles";
 //  }
+//
+//    @ExceptionHandler(DuplicateSpittleException.class)
+//    public String handleNotFound() {
+//        return "error/duplicate";
+//    }
 
 }

@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import spittr.data.Spittle;
 import spittr.data.SpittleRepository;
+import spittr.exception.DuplicateSpittleException;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by norman on 26/02/17.
@@ -17,7 +19,7 @@ import java.util.List;
 public class SpittleRepositoryImpl implements SpittleRepository {
 
 
-    private List<Spittle> spittles;
+    private List<Spittle> spittles = new ArrayList<Spittle>();
 
 //    @Autowired
 //    public SpittleRepositoryImpl(List<Spittle> spittles) {
@@ -25,11 +27,11 @@ public class SpittleRepositoryImpl implements SpittleRepository {
 //        this.spittles = spittles;
 //    }
 
-    //    @Autowired
+//    @Autowired
     public SpittleRepositoryImpl() {
         List<Spittle> spittles = new ArrayList<Spittle>();
         for (int i = 0; i < 500; i++) {
-            spittles.add(new Spittle("Spittle" + i, new Date()));
+            spittles.add(new Spittle((long) i, "Message" + i, new Date(), (double) i, (double) i));
         }
         this.spittles = spittles;
     }
@@ -59,6 +61,13 @@ public class SpittleRepositoryImpl implements SpittleRepository {
     }
 
     public void save(Spittle spittle) {
-        this.spittles.add(spittle);
+        List<Spittle> messageSpittle =
+                spittles.stream()
+                        .filter(p -> p.getMessage().equals(spittle.getMessage()))
+                        .collect(Collectors.toList());
+        if (messageSpittle.isEmpty())
+            this.spittles.add(spittle);
+        else
+            throw new DuplicateSpittleException();
     }
 }
