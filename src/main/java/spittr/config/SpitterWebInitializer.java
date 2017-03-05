@@ -38,7 +38,7 @@ public class SpitterWebInitializer extends AbstractAnnotationConfigDispatcherSer
     protected void customizeRegistration(Dynamic registration) {
         logger.debug("----------------------customizeRegistration " + this.getClass().getName());
 
-        String temporaryLocation = "/tmp/spitter/uploads";
+        String temporaryLocation = "/home/norman/personal/spring/spittr/tmp/uploads";
         long maxBytesFileUploaded = 2097152;
         long maxBytesEntireMultipart = 2097152;
         int maxBytesFileUploadedWithoutTemporaryLocation = 0;

@@ -47,9 +47,30 @@ public class SpitterController {
     }
 
 
+//    @RequestMapping(value = "/register", method = POST)
+//    public String processRegistration(
+//            @Valid Spitter spitterForm,
+//            Errors errors) throws IOException, IllegalStateException {
+//        logger.debug("--------------SpitterController processRegistration");
+//
+//        if (errors.hasErrors()) {
+//            logger.debug("--------------SpitterController errors accur");
+//            return "registerForm";
+//        }
+//        Spitter spitter = spitterForm.toSpitter();
+//        spitterRepository.save(spitter);
+//
+//        if (spitter.getProfilePicture() != null &&
+//                !spitter.getProfilePicture().isEmpty())
+//            spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
+//
+//        // redirects directly to the controller whit a concatened string. Insicure method
+//        return "redirect:/spitter/" + spitter.getUsername();
+//    }
+
     @RequestMapping(value = "/register", method = POST)
     public String processRegistration(
-            @Valid Spitter spitterForm,
+            @Valid Spitter spitterForm, Model model,
             Errors errors) throws IOException, IllegalStateException {
         logger.debug("--------------SpitterController processRegistration");
 
@@ -64,11 +85,20 @@ public class SpitterController {
                 !spitter.getProfilePicture().isEmpty())
             spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
 
-        return "redirect:/spitter/" + spitter.getUsername();
+        model.addAttribute("username", spitter.getUsername());
+        model.addAttribute("spitter_id", spitter.getId());
+
+
+        // redirects directly to the controller with the value of "username" passed in the Model.
+        // In this way any unsafe characters in the "username" proprety are escaped
+        return "redirect:/spitter/{username}?spitter_id={spitter_id}";
     }
 
     @RequestMapping(value = "/{username}", method = GET)
-    public String showSpitterProfile(@PathVariable String username, Model model) {
+    public String showSpitterProfile(
+            @PathVariable String username,
+            @RequestParam("spitter_id") long spitterId,
+            Model model) {
         Spitter spitter = spitterRepository.findByUsername(username);
         model.addAttribute(spitter);
         return "profile";

@@ -31,6 +31,8 @@ public class SpitterRepositoryImpl implements SpitterRepository {
     }
 
     public Spitter save(Spitter spitter) {
+        spitter.setId((long) (this.spitter.size()));
+
         this.spitter.add(spitter);
         return spitter;
     }
