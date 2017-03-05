@@ -68,9 +68,34 @@ public class SpitterController {
 //        return "redirect:/spitter/" + spitter.getUsername();
 //    }
 
+//    @RequestMapping(value = "/register", method = POST)
+//    public String processRegistration(
+//            @Valid Spitter spitterForm, Model model,
+//            Errors errors) throws IOException, IllegalStateException {
+//        logger.debug("--------------SpitterController processRegistration");
+//
+//        if (errors.hasErrors()) {
+//            logger.debug("--------------SpitterController errors accur");
+//            return "registerForm";
+//        }
+//        Spitter spitter = spitterForm.toSpitter();
+//        spitterRepository.save(spitter);
+//
+//        if (spitter.getProfilePicture() != null &&
+//                !spitter.getProfilePicture().isEmpty())
+//            spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
+//
+//        model.addAttribute("username", spitter.getUsername());
+//        model.addAttribute("spitter_id", spitter.getId());
+//
+//        // redirects directly to the controller with the value of "username" passed in the Model.
+//        // In this way any unsafe characters in the "username" proprety are escaped
+//        return "redirect:/spitter/{username}?spitter_id={spitter_id}";
+//    }
+
     @RequestMapping(value = "/register", method = POST)
     public String processRegistration(
-            @Valid Spitter spitterForm, Model model,
+            @Valid Spitter spitterForm, RedirectAttributes model,
             Errors errors) throws IOException, IllegalStateException {
         logger.debug("--------------SpitterController processRegistration");
 
@@ -88,6 +113,7 @@ public class SpitterController {
         model.addAttribute("username", spitter.getUsername());
         model.addAttribute("spitter_id", spitter.getId());
 
+        model.addFlashAttribute("spitter", spitter);
 
         // redirects directly to the controller with the value of "username" passed in the Model.
         // In this way any unsafe characters in the "username" proprety are escaped
@@ -99,8 +125,15 @@ public class SpitterController {
             @PathVariable String username,
             @RequestParam("spitter_id") long spitterId,
             Model model) {
-        Spitter spitter = spitterRepository.findByUsername(username);
-        model.addAttribute(spitter);
+
+        if (!model.containsAttribute("spitter")) {
+            model.addAttribute(
+                    spitterRepository.findByUsername(username));
+        }
+
+//      Spitter spitter = spitterRepository.findByUsername(username);
+//      model.addAttribute(spitter);
+
         return "profile";
     }
 
