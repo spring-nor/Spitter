@@ -32,26 +32,27 @@ public class SpitterControllerTest {
                 .andExpect(view().name("registerForm"));
     }
 
-  @Test
-  public void shouldProcessRegistration() throws Exception {
-    SpitterRepository mockRepository = mock(SpitterRepository.class);
-    Spitter unsaved = new Spitter("jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
-    Spitter saved = new Spitter("jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
-    when(mockRepository.save(unsaved)).thenReturn(saved);
+    @Test
+    public void shouldProcessRegistration() throws Exception {
+        SpitterRepository mockRepository = mock(SpitterRepository.class);
+        Spitter unsaved = new Spitter((long) 1, "jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
+        Spitter saved = new Spitter((long) 1, "jbauer", "24hours", "Jack", "Bauer", "jbauer@ctu.gov");
+        when(mockRepository.save(unsaved)).thenReturn(saved);
 
-    SpitterController controller = new SpitterController(mockRepository);
-    MockMvc mockMvc = standaloneSetup(controller).build();
+        SpitterController controller = new SpitterController(mockRepository);
 
-    mockMvc.perform(post("/spitter/register")
-           .param("firstName", "Jacbk")
-           .param("lastName", "Bauer")
-           .param("username", "jbauer")
-           .param("password", "24hours")
-           .param("email", "jbauer@ctu.gov"))
-           .andExpect(redirectedUrl("/spitter/jbauer"));
+        MockMvc mockMvc = standaloneSetup(controller).build();
+        mockMvc.perform(post("/spitter/register")
+                .param("id", "1")
+                .param("firstName", "Jacbk")
+                .param("lastName", "Bauer")
+                .param("username", "jbauer")
+                .param("password", "24hours")
+                .param("email", "jbauer@ctu.gov"))
+                .andExpect(redirectedUrl("/spitter/jbauer?spitter_id=1"));
 
-    verify(mockRepository, atLeastOnce()).save(unsaved);
-  }
+        verify(mockRepository, atLeastOnce()).save(unsaved);
+    }
 //
 //  @Test
 //  public void shouldFailValidationWithNoData() throws Exception {

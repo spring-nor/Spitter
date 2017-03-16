@@ -41,6 +41,10 @@ public class Spitter {
         this(null, username, password, firstName, lastName, email, null);
     }
 
+    public Spitter(Long id, String username, String password, String firstName, String lastName, String email) {
+        this(id, username, password, firstName, lastName, email, null);
+    }
+
     public Spitter(Long id, String username, String password, String firstName, String lastName, String email, MultipartFile profilePicture) {
         this.id = id;
         this.username = username;
@@ -104,7 +108,7 @@ public class Spitter {
     }
 
     public Spitter toSpitter() {
-        return new Spitter(username, password, firstName, lastName, email, profilePicture);
+        return new Spitter(id, username, password, firstName, lastName, email, profilePicture);
     }
 
     public MultipartFile getProfilePicture() {
