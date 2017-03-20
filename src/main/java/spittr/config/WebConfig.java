@@ -46,6 +46,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Value("${env}")
     String env;
 
+    @Value("${application.properties}")
+    String application_properties;
+
+    @Value("${common.application.properties}")
+    String common_application_properties;
+
     @Value("${spring.profiles.active}")
     String spring_profiles_active;
 
@@ -64,10 +70,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        return new TilesViewResolver();
 //    }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
+//    @Bean
+//    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
+//        return new PropertySourcesPlaceholderConfigurer();
+//    }
 //    @Bean
 //    public PropertyPlaceholderConfigurer propertyConfigurer() throws IOException {
 //        PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
