@@ -4,11 +4,19 @@ package spittr.config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -28,9 +36,18 @@ import java.io.IOException;
 @Configuration
 @EnableWebMvc
 @ComponentScan("spittr.config")
+@PropertySource("classpath:config.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
     private final Logger logger = LogManager.getLogger(WebConfig.class);
 
+    @Autowired
+    WebApplicationContext applicationContext;
+
+    @Value("${env}")
+    String env;
+
+    @Value("${spring.profiles.active}")
+    String spring_profiles_active;
 
 //    @Bean
 //    public ViewResolver viewResolver() {
@@ -42,14 +59,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        return resolver;
 //    }
 
-//    @Bean
+    //    @Bean
 //    public ViewResolver viewResolver() {
 //        return new TilesViewResolver();
 //    }
 
     @Bean
+    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+//    @Bean
+//    public PropertyPlaceholderConfigurer propertyConfigurer() throws IOException {
+//        PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
+//        props.setLocations(new Resource[]{new ClassPathResource("config.properties")});
+//        return props;
+//    }
+
+    @Bean
     public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
-        logger.debug("----------------------Bean viewResolver " + this.getClass().getName()+ " loaded");
+        logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");
+
+
+        logger.debug("getActiveProfiles: " + applicationContext.getEnvironment().getActiveProfiles()[0]);
+        logger.debug(">>>>>>>>>>> env : " + env);
 
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine);
@@ -58,7 +90,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
-        logger.debug("----------------------templateEngine " + this.getClass().getName()+ " loaded");
+        logger.debug("----------------------templateEngine " + this.getClass().getName() + " loaded");
 
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
@@ -67,7 +99,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public TemplateResolver templateResolver() {
-        logger.debug("----------------------Bean templateResolver " + this.getClass().getName()+ " loaded");
+        logger.debug("----------------------Bean templateResolver " + this.getClass().getName() + " loaded");
 
         TemplateResolver templateResolver = new ServletContextTemplateResolver();
         templateResolver.setPrefix("/WEB-INF/views/html/");
@@ -96,7 +128,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     // Messages
     @Bean
     public MessageSource messageSource() {
-        logger.debug("----------------------Bean messageSource " + this.getClass().getName()+ " loaded");
+        logger.debug("----------------------Bean messageSource " + this.getClass().getName() + " loaded");
 
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("/WEB-INF/messages/messages");

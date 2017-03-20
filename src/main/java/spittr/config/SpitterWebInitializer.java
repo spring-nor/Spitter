@@ -2,7 +2,10 @@ package spittr.config;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import spittr.config.constant.Env;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
@@ -10,7 +13,21 @@ import javax.servlet.ServletRegistration.Dynamic;
 
 public class SpitterWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    private final Logger logger = LogManager.getLogger(WebConfig.class);
+    private final Logger logger = LogManager.getLogger(SpitterWebInitializer.class);
+
+//    @Override
+//    protected WebApplicationContext createRootApplicationContext() {
+//
+//        WebApplicationContext context =
+//                (WebApplicationContext) super.createRootApplicationContext();
+////        ((ConfigurableEnvironment) context.getEnvironment()).setActiveProfiles(Env.ENVIRONMENT);
+//
+//        //Set multiple active profiles
+//        //((ConfigurableEnvironment)context.getEnvironment())
+//        //          .setActiveProfiles(new String[]{"live", "testdb"});
+//
+//        return context;
+//    }
 
 
     @Override
