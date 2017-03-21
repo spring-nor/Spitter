@@ -1,4 +1,4 @@
-package spittr.config;
+package spittr.constant;
 
 /**
  * Created by norman on 20/03/17.

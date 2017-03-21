@@ -70,17 +70,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        return new TilesViewResolver();
 //    }
 
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-//        return new PropertySourcesPlaceholderConfigurer();
-//    }
-//    @Bean
-//    public PropertyPlaceholderConfigurer propertyConfigurer() throws IOException {
-//        PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
-//        props.setLocations(new Resource[]{new ClassPathResource("config.properties")});
-//        return props;
-//    }
-
     @Bean
     public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
         logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");

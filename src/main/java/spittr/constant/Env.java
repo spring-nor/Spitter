@@ -1,4 +1,4 @@
-package spittr.config.constant;
+package spittr.constant;
 
 
 public class Env {

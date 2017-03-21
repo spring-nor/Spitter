@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import spittr.constant.Profiles;
 
 /**
  * Created by norman on 20/03/17.
@@ -20,7 +21,7 @@ public class CommonPropertiesConfiguration extends PropertiesConfiguration {
     public static PropertySourcesPlaceholderConfigurer testProperties() {
         return createPropertySourcesPlaceholderConfigurer(
                 "common_application.properties",
-                "common_test_application.properties");
+                "test/database.properties");
     }
 
     @Bean
@@ -28,6 +29,14 @@ public class CommonPropertiesConfiguration extends PropertiesConfiguration {
     public static PropertySourcesPlaceholderConfigurer devProperties() {
         return createPropertySourcesPlaceholderConfigurer(
                 "common_application.properties",
-                "common_dev_application.properties");
+                "dev/database.properties");
+    }
+
+    @Bean
+    @Profile(Profiles.PROD)
+    public static PropertySourcesPlaceholderConfigurer prodProperties() {
+        return createPropertySourcesPlaceholderConfigurer(
+                "common_application.properties",
+                "prod/database.properties");
     }
 }
