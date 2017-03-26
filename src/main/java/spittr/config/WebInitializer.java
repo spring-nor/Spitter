@@ -8,9 +8,9 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
 
-public class SpitterWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    private final Logger logger = LogManager.getLogger(SpitterWebInitializer.class);
+    private final Logger logger = LogManager.getLogger(WebInitializer.class);
 
 //    @Override
 //    protected WebApplicationContext createRootApplicationContext() {

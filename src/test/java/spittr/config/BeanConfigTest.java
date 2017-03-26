@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.servlet.ViewResolver;
-import spittr.controllers.HomeController;
+import spittr.controller.HomeController;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
