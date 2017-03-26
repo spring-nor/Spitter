@@ -1,4 +1,4 @@
-package spittr.controllers;
+package spittr.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spittr.data.Spitter;
 import spittr.data.SpitterRepository;
 
-import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package spittr.controllers;
+package spittr.controller;
 
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
