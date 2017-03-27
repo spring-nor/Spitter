@@ -1,9 +1,12 @@
 package spittr.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import spittr.daoimpl.SpitterRepositoryImpl;
 import spittr.daoimpl.SpittleRepositoryImpl;
@@ -13,15 +16,9 @@ import spittr.data.SpittleRepository;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//import org.jboss.logging.Logger;
-//import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-
 
 @Configuration
 public class DataConfig {
-
-//    @Autowired
-//    private Environment env;
 
     @Value("${spitter.entity.package}")
     String spitter_entity_package;
@@ -38,20 +35,33 @@ public class DataConfig {
     @Value("${spitter.db.password}")
     String spitter_db_password;
 
+    @Value("${hibernate.dialectl}")
+    String hibernate_dialect;
+
+    @Value("${hibernate.show_sql}")
+    String hibernate_show_sql;
+
+    @Value("${hibernate.hbm2ddl.auto}")
+    String hibernate_hbm2ddl_auto;
+
+
+    public Properties getHibernateProperties() {
+        Properties properties = new Properties();
+        properties.put("hibernate.dialect", hibernate_dialect);
+        properties.put("hibernate.show_sql", hibernate_show_sql);
+        properties.put("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
+        return properties;
+    }
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
 //        Resource config = new ClassPathResource("hibernate.cfg.xml");
+//        sessionFactory.setConfigLocation(config);
 
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-
-//        sessionFactory.setConfigLocation(config);
-        sessionFactory.setPackagesToScan(new String[] {"spittr.model.entity"});
-
-        Properties props = new Properties();
-        props.setProperty("dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        sessionFactory.setHibernateProperties(props);
+        sessionFactory.setPackagesToScan(spitter_entity_package);
+        sessionFactory.setHibernateProperties(getHibernateProperties());
 
         return sessionFactory;
     }
@@ -61,13 +71,21 @@ public class DataConfig {
         BasicDataSource ds = new BasicDataSource();
 
         // Driver class name
-        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setDriverClassName(spitter_db_driver);
         // Set URL
-        ds.setUrl("jdbc:postgresql://localhost:5432/spitter");
+        ds.setUrl(spitter_db_url);
         // Set username & password
-        ds.setUsername("spitter");
-        ds.setPassword("spitter");
+        ds.setUsername(spitter_db_username);
+        ds.setPassword(spitter_db_password);
         return ds;
+    }
+
+    @Bean
+    @Autowired
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+        HibernateTransactionManager tm = new HibernateTransactionManager();
+        tm.setSessionFactory(sessionFactory);
+        return tm;
     }
 
 //    @Bean

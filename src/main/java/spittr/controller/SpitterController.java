@@ -1,7 +1,7 @@
 package spittr.controller;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 @RequestMapping("/spitter")
 public class SpitterController {
-//    private final Logger logger = LogManager.getLogger(HomeController.class);
+    private final Logger logger = LogManager.getLogger(HomeController.class);
     private static final String MAX_LONG_AS_STRING = "9223372036854775807";
 
 
@@ -30,14 +30,14 @@ public class SpitterController {
 
     @Autowired
     public SpitterController(SpitterRepository spitterRepository) {
-//        logger.debug("--------------SpitterController Constructor");
+        logger.debug("--------------SpitterController Constructor");
 
         this.spitterRepository = spitterRepository;
     }
 
     @RequestMapping(value = "/register", method = GET)
     public String showRegistrationForm(Model model) {
-//        logger.debug("--------------SpitterController showRegistrationForm");
+        logger.debug("--------------SpitterController showRegistrationForm");
 
         model.addAttribute("spitter", new Spitter());
 
@@ -95,10 +95,10 @@ public class SpitterController {
     public String processRegistration(
             @Valid Spitter spitterForm, RedirectAttributes model,
             Errors errors) throws IOException, IllegalStateException {
-//        logger.debug("--------------SpitterController processRegistration");
+        logger.debug("--------------SpitterController processRegistration");
 
         if (errors.hasErrors()) {
-//            logger.debug("--------------SpitterController errors accur");
+            logger.debug("--------------SpitterController errors accur");
             return "registerForm";
         }
         Spitter spitter = spitterForm.toSpitter();
@@ -138,7 +138,7 @@ public class SpitterController {
     @RequestMapping(method = RequestMethod.GET)
     public String showAllSpitter(Model model) {
 
-//        logger.debug("--------------SpitterController showAllSpitter");
+        logger.debug("--------------SpitterController showAllSpitter");
 
         model.addAttribute("spitterList",
                 spitterRepository.showAllSpitter());

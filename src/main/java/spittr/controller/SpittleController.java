@@ -1,7 +1,7 @@
 package spittr.controller;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/spittles")
 public class SpittleController {
-//    private final Logger logger = LogManager.getLogger(HomeController.class);
+    private final Logger logger = LogManager.getLogger(HomeController.class);
 
 
     private static final String MAX_LONG_AS_STRING = "9223372036854775807";
@@ -24,7 +24,7 @@ public class SpittleController {
 
     @Autowired
     public SpittleController(SpittleRepository spittleRepository) {
-//        logger.debug("--------------SpittleController Constructor");
+        logger.debug("--------------SpittleController Constructor");
 
         this.spittleRepository = spittleRepository;
     }
@@ -44,7 +44,7 @@ public class SpittleController {
                            @RequestParam(value = "max", defaultValue = MAX_LONG_AS_STRING) long max,
                            @RequestParam(value = "count", defaultValue = "20") int count) {
 
-//        logger.debug("--------------SpittleController spittles");
+        logger.debug("--------------SpittleController spittles");
 
         model.addAttribute("spittle", new Spittle());
 
@@ -59,7 +59,7 @@ public class SpittleController {
     public String spittle(
             @PathVariable("spittleId") long spittleId,
             Model model) {
-//        logger.debug("--------------spittle");
+        logger.debug("--------------spittle");
         Spittle spittle = spittleRepository.findOne(spittleId);
         if (spittle == null) {
             throw new SpittleNotFoundException();
