@@ -14,10 +14,20 @@ import javax.persistence.GenerationType;
 
 
 @Entity
-@Table(name = "SPITTER")
+//@Table(name = "SPITTER")
 public class Spitter {
 
-    private Spitter() {
+    public Spitter(Long id, String username, String password, String fullName,
+                   String email, boolean updateByEmail) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.email = email;
+        this.updateByEmail = updateByEmail;
+    }
+
+    public Spitter() {
     }
 
     @Id
@@ -36,18 +46,10 @@ public class Spitter {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "updateByEmail")
+    @Column(name = "updatebyemail")
     private boolean updateByEmail;
 
-    public Spitter(Long id, String username, String password, String fullName,
-                   String email, boolean updateByEmail) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.fullName = fullName;
-        this.email = email;
-        this.updateByEmail = updateByEmail;
-    }
+
 
     public Long getId() {
         return id;

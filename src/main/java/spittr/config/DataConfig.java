@@ -1,6 +1,8 @@
 package spittr.config;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -13,21 +15,44 @@ import spittr.data.SpitterRepository;
 import spittr.data.SpittleRepository;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 
 @Configuration
 public class DataConfig {
 
-    @Autowired
-    private Environment env;
+//    @Autowired
+//    private Environment env;
+
+    @Value("${spitter.entity.package}")
+    String spitter_entity_package;
+
+    @Value("${spitter.db.driver}")
+    String spitter_db_driver;
+
+    @Value("${spitter.db.url}")
+    String spitter_db_url;
+
+    @Value("${spitter.db.username}")
+    String spitter_db_username;
+
+    @Value("${spitter.db.password}")
+    String spitter_db_password;
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        Resource config = new ClassPathResource("hibernate.cfg.xml");
+    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
+//        Resource config = new ClassPathResource("hibernate.cfg.xml");
+
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setConfigLocation(config);
-        sessionFactory.setPackagesToScan(env.getProperty("spitter.entity.package"));
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSource);
+
+//        sessionFactory.setConfigLocation(config);
+        sessionFactory.setPackagesToScan(new String[] {"spittr.model.entity"});
+
+        Properties props = new Properties();
+        props.setProperty("dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        sessionFactory.setHibernateProperties(props);
+
         return sessionFactory;
     }
 
@@ -36,15 +61,12 @@ public class DataConfig {
         BasicDataSource ds = new BasicDataSource();
 
         // Driver class name
-        ds.setDriverClassName(env.getProperty("spitter.db.driver"));
-
+        ds.setDriverClassName("org.postgresql.Driver");
         // Set URL
-        ds.setUrl(env.getProperty("spitter.db.url"));
-
+        ds.setUrl("jdbc:postgresql://localhost:5432/spitter");
         // Set username & password
-        ds.setUsername(env.getProperty("spitter.db.username"));
-        ds.setPassword(env.getProperty("spitter.db.password"));
-
+        ds.setUsername("spitter");
+        ds.setPassword("spitter");
         return ds;
     }
 
