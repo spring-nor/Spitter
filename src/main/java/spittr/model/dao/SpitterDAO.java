@@ -1,22 +1,12 @@
 package spittr.model.dao;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import spittr.model.entity.Spitter;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -34,22 +24,22 @@ public class SpitterDAO implements IDAOExt<Spitter> {
 //        this.entityManager = entityManager;
 //    }
 
-//    @Autowired
+    @Autowired
     private SessionFactory sessionFactory;
 
-    @Inject
-    public SpitterDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;		 //<co id="co_InjectSessionFactory"/>
-    }
-
-    private Session currentSession() {
-        return sessionFactory.getCurrentSession();//<co id="co_RetrieveCurrentSession"/>
-    }
+//    @Inject
+//    public SpitterDAO(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;		 //<co id="co_InjectSessionFactory"/>
+//    }
+//
+//    private Session currentSession() {
+//        return sessionFactory.getCurrentSession();//<co id="co_RetrieveCurrentSession"/>
+//    }
 
     @Override
     public Spitter findById(long id) {
 //        Session session = (Session) entityManager.getDelegate();
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
 
         Spitter spitter = session.get(Spitter.class, id);
         session.close();

@@ -1,13 +1,9 @@
 package spittr.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import spittr.daoimpl.SpitterRepositoryImpl;
 import spittr.daoimpl.SpittleRepositoryImpl;
@@ -16,6 +12,9 @@ import spittr.data.SpittleRepository;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+
+//import org.jboss.logging.Logger;
+//import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 
 
 @Configuration
@@ -38,6 +37,7 @@ public class DataConfig {
 
     @Value("${spitter.db.password}")
     String spitter_db_password;
+
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
