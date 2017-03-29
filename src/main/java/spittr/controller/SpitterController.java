@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spittr.model.entity.Spitter;
 import spittr.service.ISpitterService;
@@ -24,7 +25,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class SpitterController {
     private final Logger logger = LogManager.getLogger(HomeController.class);
     private static final String MAX_LONG_AS_STRING = "9223372036854775807";
-
 
 
     @Autowired
@@ -99,6 +99,7 @@ public class SpitterController {
     @RequestMapping(value = "/register", method = POST)
     public String processRegistration(
             @Valid Spitter spitterForm, RedirectAttributes model,
+            @RequestParam("profilePicture") MultipartFile picture,
             Errors errors) throws IOException, IllegalStateException {
         logger.debug("--------------SpitterController processRegistration");
 
@@ -109,12 +110,10 @@ public class SpitterController {
         Spitter spitter = spitterService.toSpitter(spitterForm);
 
         spitterService.persist(spitter);
-//
-//        spitterRepository.save(spitter);
-//
-//        if (spitter.getProfilePicture() != null &&
-//                !spitter.getProfilePicture().isEmpty())
-//            spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
+
+
+        if (picture != null && !picture.isEmpty())
+            picture.transferTo(new File(picture.getOriginalFilename()));
 
 //        model.addAttribute("username", spitter.getUsername());
 //        model.addAttribute("spitter_id", spitter.getId());

@@ -1,6 +1,7 @@
 package spittr.model.entity;
 
 import org.hibernate.validator.constraints.Email;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
