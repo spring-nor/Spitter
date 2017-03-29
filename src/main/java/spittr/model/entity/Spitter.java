@@ -1,11 +1,15 @@
 package spittr.model.entity;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -27,6 +31,16 @@ public class Spitter {
         this.updateByEmail = updateByEmail;
     }
 
+    public Spitter(Spitter spitter) {
+        this.username = spitter.getUsername();
+        this.password = spitter.getPassword();
+        this.firstName = spitter.getFirstName();
+        this.lastName   =spitter.getLastName();
+        this.fullName = spitter.getFullName();
+        this.email = spitter.getEmail();
+        this.updateByEmail = spitter.isUpdateByEmail();
+    }
+
     public Spitter() {
     }
 
@@ -34,22 +48,36 @@ public class Spitter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @NotNull
+//    @Size(min = 5, max = 16, message = "{username.size}")
     @Column(name = "username")
     private String username;
 
+//    @NotNull
+//    @Size(min = 5, max = 25, message = "{password.size}")
     @Column(name = "password")
     private String password;
+
+//    @NotNull
+//    @Size(min = 2, max = 30, message = "{firstName.size}")
+    @Column(name = "firstName")
+    private String firstName;
+
+//    @NotNull
+//    @Size(min = 2, max = 30, message = "{lastName.size}")
+    @Column(name = "lastName")
+    private String lastName;
 
     @Column(name = "fullname")
     private String fullName;
 
+//    @NotNull
+//    @Email
     @Column(name = "email")
     private String email;
 
     @Column(name = "updatebyemail")
     private boolean updateByEmail;
-
-
 
     public Long getId() {
         return id;
@@ -73,6 +101,22 @@ public class Spitter {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getFullName() {
@@ -99,3 +143,4 @@ public class Spitter {
         this.updateByEmail = updateByEmail;
     }
 }
+

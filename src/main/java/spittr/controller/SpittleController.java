@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import spittr.data.Spittle;
-import spittr.data.SpittleRepository;
 import spittr.exception.SpittleNotFoundException;
 
 import java.util.Date;
@@ -20,14 +18,14 @@ public class SpittleController {
 
     private static final String MAX_LONG_AS_STRING = "9223372036854775807";
 
-    private SpittleRepository spittleRepository;
-
-    @Autowired
-    public SpittleController(SpittleRepository spittleRepository) {
-        logger.debug("--------------SpittleController Constructor");
-
-        this.spittleRepository = spittleRepository;
-    }
+//    private SpittleRepository spittleRepository;
+//
+//    @Autowired
+//    public SpittleController(SpittleRepository spittleRepository) {
+//        logger.debug("--------------SpittleController Constructor");
+//
+//        this.spittleRepository = spittleRepository;
+//    }
 
     //    @RequestMapping(method = RequestMethod.GET)
 //    public List<Spittle> spittles(
@@ -46,10 +44,10 @@ public class SpittleController {
 
         logger.debug("--------------SpittleController spittles");
 
-        model.addAttribute("spittle", new Spittle());
-
-        model.addAttribute("spittleList",
-                spittleRepository.findSpittles(max, count));
+//        model.addAttribute("spittle", new Spittle());
+//
+//        model.addAttribute("spittleList",
+//                spittleRepository.findSpittles(max, count));
 
         return "spittles";
     }
@@ -60,13 +58,13 @@ public class SpittleController {
             @PathVariable("spittleId") long spittleId,
             Model model) {
         logger.debug("--------------spittle");
-        Spittle spittle = spittleRepository.findOne(spittleId);
-        if (spittle == null) {
-            throw new SpittleNotFoundException();
-        }
-
-        model.addAttribute("spittle",
-                spittle);
+//        Spittle spittle = spittleRepository.findOne(spittleId);
+//        if (spittle == null) {
+//            throw new SpittleNotFoundException();
+//        }
+//
+//        model.addAttribute("spittle",
+//                spittle);
         return "spittle";
     }
 
@@ -75,16 +73,16 @@ public class SpittleController {
     public String showSpittle(
             @RequestParam("spittle_id") long spittleId,
             Model model) {
-        model.addAttribute(spittleRepository.findOne(spittleId));
+//        model.addAttribute(spittleRepository.findOne(spittleId));
         return "spittle";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String saveSpittle(Spittle spittleForm, Model model) {
-        spittleRepository.save(new Spittle(null, spittleForm.getMessage(), new Date(),
-                spittleForm.getLongitude(), spittleForm.getLatitude()));
-        return "redirect:/spittles";
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public String saveSpittle(Spittle spittleForm, Model model) {
+//        spittleRepository.save(new Spittle(null, spittleForm.getMessage(), new Date(),
+//                spittleForm.getLongitude(), spittleForm.getLatitude()));
+//        return "redirect:/spittles";
+//    }
 
 //    @RequestMapping(method = RequestMethod.POST)
 //    public String saveSpittle(Spittle spittleForm, Model model) {

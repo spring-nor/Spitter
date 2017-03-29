@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ISpitterService extends IDAOExtService<Spitter> {
     public List<Spitter> findByEmail(String email);
-
     public List<Spitter> findByFullName(String fullName);
+
+    public Spitter toSpitter(Spitter spitterForm);
 }

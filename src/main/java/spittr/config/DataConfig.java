@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import spittr.daoimpl.SpitterRepositoryImpl;
-import spittr.daoimpl.SpittleRepositoryImpl;
-import spittr.data.SpitterRepository;
-import spittr.data.SpittleRepository;
+
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -109,14 +106,14 @@ public class DataConfig {
 //        return new ArrayList<Spittle>();
 //    }
 
-    @Bean
-    public SpittleRepository spittleRepository() {
-        return new SpittleRepositoryImpl();
-    }
-
-    @Bean
-    public SpitterRepository spitterRepository() {
-        return new SpitterRepositoryImpl();
-    }
+//    @Bean
+//    public SpittleRepository spittleRepository() {
+//        return new SpittleRepositoryImpl();
+//    }
+//
+//    @Bean
+//    public SpitterRepository spitterRepository() {
+//        return new SpitterRepositoryImpl();
+//    }
 
 }

@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import spittr.data.Spitter;
-import spittr.data.SpitterRepository;
+import spittr.model.entity.Spitter;
+import spittr.service.ISpitterService;
 
 import javax.validation.Valid;
 
@@ -26,14 +26,19 @@ public class SpitterController {
     private static final String MAX_LONG_AS_STRING = "9223372036854775807";
 
 
-    private SpitterRepository spitterRepository;
 
     @Autowired
-    public SpitterController(SpitterRepository spitterRepository) {
-        logger.debug("--------------SpitterController Constructor");
+    private ISpitterService spitterService;
 
-        this.spitterRepository = spitterRepository;
-    }
+
+//    private SpitterRepository spitterRepository;
+
+//    @Autowired
+//    public SpitterController(SpitterRepository spitterRepository) {
+//        logger.debug("--------------SpitterController Constructor");
+//
+//        this.spitterRepository = spitterRepository;
+//    }
 
     @RequestMapping(value = "/register", method = GET)
     public String showRegistrationForm(Model model) {
@@ -101,17 +106,20 @@ public class SpitterController {
             logger.debug("--------------SpitterController errors accur");
             return "registerForm";
         }
-        Spitter spitter = spitterForm.toSpitter();
-        spitterRepository.save(spitter);
+        Spitter spitter = spitterService.toSpitter(spitterForm);
 
-        if (spitter.getProfilePicture() != null &&
-                !spitter.getProfilePicture().isEmpty())
-            spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
+        spitterService.persist(spitter);
+//
+//        spitterRepository.save(spitter);
+//
+//        if (spitter.getProfilePicture() != null &&
+//                !spitter.getProfilePicture().isEmpty())
+//            spitter.getProfilePicture().transferTo(new File(spitterForm.getProfilePicture().getOriginalFilename()));
 
-        model.addAttribute("username", spitter.getUsername());
-        model.addAttribute("spitter_id", spitter.getId());
-
-        model.addFlashAttribute("spitter", spitter);
+//        model.addAttribute("username", spitter.getUsername());
+//        model.addAttribute("spitter_id", spitter.getId());
+//
+//        model.addFlashAttribute("spitter", spitter);
 
         // redirects directly to the controller with the value of "username" passed in the Model.
         // In this way any unsafe characters in the "username" proprety are escaped
@@ -124,10 +132,10 @@ public class SpitterController {
             @RequestParam("spitter_id") long spitterId,
             Model model) {
 
-        if (!model.containsAttribute("spitter")) {
-            model.addAttribute(
-                    spitterRepository.findByUsername(username));
-        }
+//        if (!model.containsAttribute("spitter")) {
+//            model.addAttribute(
+//                    spitterRepository.findByUsername(username));
+//        }
 
 //      Spitter spitter = spitterRepository.findByUsername(username);
 //      model.addAttribute(spitter);
@@ -140,8 +148,8 @@ public class SpitterController {
 
         logger.debug("--------------SpitterController showAllSpitter");
 
-        model.addAttribute("spitterList",
-                spitterRepository.showAllSpitter());
+//        model.addAttribute("spitterList",
+//                spitterRepository.showAllSpitter());
 
         return "spitter";
     }

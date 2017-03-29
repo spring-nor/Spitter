@@ -64,7 +64,16 @@ public class SpitterDAO implements IDAOExt<Spitter> {
 
     @Override
     public void persist(Spitter persistentE) {
-//        entityManager.persist(persistentE);
+        // Open a session
+        Session session = sessionFactory.openSession();
+        // Begin a transaction
+        session.beginTransaction();
+        // Save the category
+        session.saveOrUpdate(persistentE);
+        // Commit the transaction
+        session.getTransaction().commit();
+        // Close the session
+        session.close();
     }
 
     @Override

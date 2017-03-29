@@ -66,4 +66,10 @@ public class SpitterServiceImpl implements ISpitterService {
     public List<Spitter> findByQuery(String query, Map<String, Object> parameters) {
         return dao.findByQuery(query, parameters);
     }
+
+    @Override
+    public Spitter toSpitter(Spitter spitterForm) {
+        spitterForm.setFullName(spitterForm.getFirstName() + " - " + spitterForm.getLastName());
+        return new Spitter(spitterForm);
+    }
 }
