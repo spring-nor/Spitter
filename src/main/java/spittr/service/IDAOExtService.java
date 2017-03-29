@@ -11,6 +11,5 @@ import java.util.Map;
 
 public interface IDAOExtService<E> extends IDAOService<E> {
     public List<E> findByCriteria(List<Criterion> criterionList);
-
     public List<E> findByQuery(String query, Map<String, Object> parameters);
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import spittr.model.entity.Spitter;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +76,32 @@ public class SpitterDAO implements IDAOExt<Spitter> {
         session.getTransaction().commit();
         // Close the session
         session.close();
+    }
+
+    @Override
+    public List<Spitter> findAll() {
+        // Open a session
+        Session session = sessionFactory.openSession();
+
+        // DEPRECATED as of Hibernate 5.2.0
+        // List<Category> categories = session.createCriteria(Category.class).list();
+
+        // Create CriteriaBuilder
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        // Create CriteriaQuery
+        CriteriaQuery<Spitter> criteria = builder.createQuery(Spitter.class);
+
+        // Specify criteria root
+        criteria.from(Spitter.class);
+
+        // Execute query
+        List<Spitter> spitter = session.createQuery(criteria).getResultList();
+
+        // Close session
+        session.close();
+
+        return spitter;
     }
 
     @Override

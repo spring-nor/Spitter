@@ -48,6 +48,10 @@ public class SpitterServiceImpl implements ISpitterService {
     }
 
     @Override
+    public List<Spitter> findAll() {
+        return dao.findAll();    }
+
+    @Override
     public List<Spitter> findByEmail(String email) {
         return dao.findByEmail(email);
     }

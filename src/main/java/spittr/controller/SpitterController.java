@@ -115,10 +115,10 @@ public class SpitterController {
         if (picture != null && !picture.isEmpty())
             picture.transferTo(new File(picture.getOriginalFilename()));
 
-//        model.addAttribute("username", spitter.getUsername());
-//        model.addAttribute("spitter_id", spitter.getId());
+        model.addAttribute("username", spitter.getUsername());
+        model.addAttribute("spitter_id", spitter.getId());
 //
-//        model.addFlashAttribute("spitter", spitter);
+        model.addFlashAttribute("spitter", spitter);
 
         // redirects directly to the controller with the value of "username" passed in the Model.
         // In this way any unsafe characters in the "username" proprety are escaped
@@ -131,10 +131,11 @@ public class SpitterController {
             @RequestParam("spitter_id") long spitterId,
             Model model) {
 
-//        if (!model.containsAttribute("spitter")) {
-//            model.addAttribute(
-//                    spitterRepository.findByUsername(username));
-//        }
+        if (!model.containsAttribute("spitter")) {
+//            model.addAttribute( spitterService.findById(spitterId));  lo prende in automatico così
+
+            model.addAttribute("spitter", spitterService.findById(spitterId));
+        }
 
 //      Spitter spitter = spitterRepository.findByUsername(username);
 //      model.addAttribute(spitter);
@@ -147,8 +148,8 @@ public class SpitterController {
 
         logger.debug("--------------SpitterController showAllSpitter");
 
-//        model.addAttribute("spitterList",
-//                spitterRepository.showAllSpitter());
+        model.addAttribute("spitterList",
+                spitterService.findAll());
 
         return "spitter";
     }

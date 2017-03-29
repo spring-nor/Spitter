@@ -1,5 +1,7 @@
 package spittr.service;
 
+import java.util.List;
+
 /**
  * Created by norman on 27/03/17.
  */
@@ -15,4 +17,7 @@ public interface IDAOService<E> {
     void remove(E persistentE);
 
     void persist(E persistentE);
+
+    List<E> findAll();
+
 }

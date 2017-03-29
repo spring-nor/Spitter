@@ -1,5 +1,7 @@
 package spittr.model.dao;
 
+import java.util.List;
+
 /**
  * Created by norman on 25/03/17.
  */
@@ -15,5 +17,7 @@ public interface IDAO<E> {
     void remove(E persistentE);
 
     void persist(E persistentE);
+
+    List<E> findAll();
 
 }
