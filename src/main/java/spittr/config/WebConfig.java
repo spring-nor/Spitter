@@ -4,6 +4,7 @@ package spittr.config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -63,6 +64,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //    }
 
     @Bean
+    @Qualifier("web_config")
     public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
         logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");
 

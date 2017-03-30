@@ -1,6 +1,8 @@
 package spittr.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.web.context.WebApplicationContext;
 
 
 import javax.sql.DataSource;
@@ -16,6 +19,11 @@ import java.util.Properties;
 
 @Configuration
 public class DataConfig {
+//    private final Logger logger = LogManager.getLogger(DataConfig.class);
+//    @Autowired
+//    WebApplicationContext applicationContext;
+//    @Value("${env}")
+//    String env;
 
     @Value("${spitter.entity.package}")
     String spitter_entity_package;
@@ -65,6 +73,10 @@ public class DataConfig {
 
     @Bean
     public DataSource dataSource() {
+
+//        logger.debug("getActiveProfiles: " + applicationContext.getEnvironment().getActiveProfiles()[0]);
+//        logger.debug(">>>>>>>>>>> env : " + env);
+
         BasicDataSource ds = new BasicDataSource();
 
         // Driver class name

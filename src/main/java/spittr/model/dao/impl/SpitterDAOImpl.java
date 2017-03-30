@@ -10,6 +10,9 @@ import spittr.model.entity.Spitter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +133,20 @@ public class SpitterDAOImpl implements ISpitterDAO {
     }
 
     public List<Spitter> findByEmail(String email) {
+
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Spitter> cq = cb.createQuery(Spitter.class);
+
+        Root<Spitter> spitter = cq.from(Spitter.class);
+        EntityType<Spitter> Spitter_ = spitter.getModel();
+        cq.from(Spitter.class);
+//        cq.where(cb.equals(spitter.get(Spitter_.)),email);
+//
+//         Execute query
+//        List<Spitter> spitter = session.createQuery(criteria).getResultList();
+
         return null;
     }
 
