@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import spittr.model.dao.SpitterDAO;
+import spittr.model.dao.ISpitterDAO;
 import spittr.model.entity.Spitter;
 import spittr.service.ISpitterService;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 public class SpitterServiceImpl implements ISpitterService {
 
     @Autowired
-    private SpitterDAO dao;
+    private ISpitterDAO dao;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     public Spitter findById(long id) {

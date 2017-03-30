@@ -1,10 +1,11 @@
-package spittr.model.dao;
+package spittr.model.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import spittr.model.dao.ISpitterDAO;
 import spittr.model.entity.Spitter;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,11 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by norman on 27/03/17.
+ * Created by norman on 30/03/17.
  */
 
+
 @Repository
-public class SpitterDAO implements IDAOExt<Spitter> {
+public class SpitterDAOImpl implements ISpitterDAO {
 
 //    private EntityManager entityManager;
 //
