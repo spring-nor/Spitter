@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import spittr.model.dao.ISpitterDAO;
 import spittr.model.entity.Spitter;
+import spittr.model.entity.Spitter_;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
+//import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +28,12 @@ import java.util.Map;
 @Repository
 public class SpitterDAOImpl implements ISpitterDAO {
 
-//    private EntityManager entityManager;
-//
-//    @PersistenceContext
-//    public void setEntityManager(EntityManager entityManager) {
-//        this.entityManager = entityManager;
-//    }
+    private EntityManager entityManager;
+
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -133,21 +137,20 @@ public class SpitterDAOImpl implements ISpitterDAO {
     }
 
     public List<Spitter> findByEmail(String email) {
-
-
         Session session = sessionFactory.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Spitter> cq = cb.createQuery(Spitter.class);
 
         Root<Spitter> spitter = cq.from(Spitter.class);
-        EntityType<Spitter> Spitter_ = spitter.getModel();
-        cq.from(Spitter.class);
-//        cq.where(cb.equals(spitter.get(Spitter_.)),email);
-//
-//         Execute query
-//        List<Spitter> spitter = session.createQuery(criteria).getResultList();
+//        EntityType<Spitter> Spitter_ = spitter.getModel();
+//        cq.where(cb.equal(spitter.get(Spitter_.getSingularAttribute("email")), email));
+        cq.where(cb.equal(spitter.get(Spitter_.email), email));
 
-        return null;
+//      Execute query
+        TypedQuery<Spitter> q = session.createQuery(cq);
+        List<Spitter> spitterSelectede = q.getResultList();
+
+        return spitterSelectede;
     }
 
     public List<Spitter> findByFullName(String fullName) {

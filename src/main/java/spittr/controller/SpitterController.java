@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -139,6 +140,28 @@ public class SpitterController {
 
 //      Spitter spitter = spitterRepository.findByUsername(username);
 //      model.addAttribute(spitter);
+
+        return "profile";
+    }
+
+    @RequestMapping(value = "/email", method = GET)
+    public String getSpitterProfileByEmail(
+//            @PathVariable String username,
+            @RequestParam("email") String email,
+            Model model) {
+
+
+        List<Spitter> spitter = spitterService.findByEmail(email);
+
+
+//        if (!model.containsAttribute("spitter")) {
+////            model.addAttribute( spitterService.findById(spitterId));  lo prende in automatico così
+//
+//            model.addAttribute("spitter", spitterService.findById(spitterId));
+//        }
+//
+////      Spitter spitter = spitterRepository.findByUsername(username);
+////      model.addAttribute(spitter);
 
         return "profile";
     }
