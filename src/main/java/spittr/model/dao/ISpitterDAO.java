@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import spittr.model.entity.Spitter;
 
@@ -16,7 +17,7 @@ import java.util.Map;
  * Created by norman on 27/03/17.
  */
 
-@Repository
+//@Repository
 public interface ISpitterDAO extends IDAOExt<Spitter> {
 
     public List<Spitter> findByEmail(String email);

@@ -148,13 +148,38 @@ public class SpitterDAOImpl implements ISpitterDAO {
 
 //      Execute query
         TypedQuery<Spitter> q = session.createQuery(cq);
-        List<Spitter> spitterSelectede = q.getResultList();
+        List<Spitter> spitterList = q.getResultList();
+        session.close();
 
-        return spitterSelectede;
+        return spitterList;
+    }
+
+    public List<Spitter> findByFirstName(String firstName) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Spitter> cq = cb.createQuery(Spitter.class);
+
+        Root<Spitter> spitter = cq.from(Spitter.class);
+
+        cq.where(cb.equal(spitter.get(Spitter_.firstName), firstName));
+
+//      Execute query
+        TypedQuery<Spitter> q = session.createQuery(cq);
+        List<Spitter> spitterList = q.getResultList();
+        session.close();
+        return spitterList;
     }
 
     public List<Spitter> findByFullName(String fullName) {
-        return null;
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Spitter> cq = cb.createQuery(Spitter.class);
+        Root<Spitter> spitter = cq.from(Spitter.class);
+        cq.where(cb.equal(spitter.get(Spitter_.fullName), fullName));
+        TypedQuery<Spitter> q = session.createQuery(cq);
+        List<Spitter> spitterList = q.getResultList();
+        session.close();
+        return spitterList;
     }
 
 }
