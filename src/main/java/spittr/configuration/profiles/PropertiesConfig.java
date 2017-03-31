@@ -12,7 +12,7 @@ import org.springframework.core.io.Resource;
 /**
  * Extend and include {@link PropertySourcesPlaceholderConfigurer} beans in Configuration classes.
  */
-public abstract class PropertiesConfiguration {
+public abstract class PropertiesConfig {
 
     protected static PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurer(String... propertiesLocations) {
         final Resource[] resources = new Resource[propertiesLocations.length];

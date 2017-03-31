@@ -14,7 +14,7 @@ import spittr.constant.Profiles;
 
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CommonPropertiesConfiguration extends PropertiesConfiguration {
+public class CommonPropertiesConfig extends PropertiesConfig {
 
     @Bean
     @Profile(Profiles.TEST)

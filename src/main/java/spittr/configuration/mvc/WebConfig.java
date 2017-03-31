@@ -1,4 +1,4 @@
-package spittr.configuration.webmvc;
+package spittr.configuration.mvc;
 
 
 import org.apache.logging.log4j.LogManager;

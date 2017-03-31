@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.servlet.ViewResolver;
 import spittr.configuration.database.DataConfig;
-import spittr.configuration.webmvc.WebConfig;
+import spittr.configuration.mvc.WebConfig;
 import spittr.controller.HomeController;
 
 import static junit.framework.TestCase.assertNotNull;

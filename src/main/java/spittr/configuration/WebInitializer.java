@@ -1,10 +1,8 @@
 package spittr.configuration;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import spittr.configuration.webmvc.RootConfig;
-import spittr.configuration.webmvc.WebConfig;
+import spittr.configuration.mvc.RootConfig;
+import spittr.configuration.mvc.WebConfig;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
@@ -12,7 +10,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    private final Logger logger = LogManager.getLogger(WebInitializer.class);
+//    private final Logger logger = LogManager.getLogger(WebInitializer.class);
 
 //    @Override
 //    protected WebApplicationContext createRootApplicationContext() {

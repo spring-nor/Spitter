@@ -1,4 +1,4 @@
-package spittr.configuration.webmvc;
+package spittr.configuration.mvc;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
-import spittr.configuration.webmvc.RootConfig.WebPackage;
+import spittr.configuration.mvc.RootConfig.WebPackage;
 import spittr.configuration.database.DataConfig;
 
 import java.util.regex.Pattern;

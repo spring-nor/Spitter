@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 
 /**
@@ -19,8 +20,8 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-//@Table(name = "SPITTER")
-public class Spitter {
+@Table(name = "SPITTER")
+public class Spitter implements Serializable {
 
     public Spitter(Long id, String username, String password, String fullName,
                    String email, boolean updateByEmail) {
