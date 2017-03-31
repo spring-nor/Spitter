@@ -1,4 +1,4 @@
-package spittr.config;
+package spittr.configuration.database;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.logging.log4j.LogManager;

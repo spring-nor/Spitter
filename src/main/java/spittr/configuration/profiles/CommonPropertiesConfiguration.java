@@ -1,4 +1,4 @@
-package spittr.config;
+package spittr.configuration.profiles;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

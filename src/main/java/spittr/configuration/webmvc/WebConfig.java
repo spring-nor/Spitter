@@ -1,4 +1,4 @@
-package spittr.config;
+package spittr.configuration.webmvc;
 
 
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +28,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("spittr.config")
+@ComponentScan("spittr.configuration")
 @PropertySource("classpath:config.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
     private final Logger logger = LogManager.getLogger(WebConfig.class);
