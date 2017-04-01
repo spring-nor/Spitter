@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public interface IUserService {
+
     User findById(long id);
 
     User findBySSO(String sso);
