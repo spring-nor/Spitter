@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface IUserService {
-    User findById(int id);
+    User findById(long id);
 
     User findBySSO(String sso);
 
@@ -21,5 +21,5 @@ public interface IUserService {
 
     List<User> findAllUsers();
 
-    boolean isUserSSOUnique(Integer id, String sso);
+    boolean isUserSSOUnique(Long id, String sso);
 }

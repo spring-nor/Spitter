@@ -7,9 +7,9 @@ import java.util.List;
  * Created by norman on 31/03/17.
  */
 
-public interface IUserDAO extends IDAOExt<User> {
+public interface IUserDAO {
 
-    User findById(int id);
+    User findById(long id);
 
     User findBySSO(String sso);
 
