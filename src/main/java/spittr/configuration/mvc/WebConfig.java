@@ -12,17 +12,20 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
+import spittr.converter.RoleToUserProfileConverter;
 
 import java.io.IOException;
 
@@ -35,6 +38,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     WebApplicationContext applicationContext;
+
+    @Autowired
+    RoleToUserProfileConverter roleToUserProfileConverter;
 
     @Value("${env}")
     String env;
@@ -142,6 +148,25 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         logger.debug("----------------------Bean multipartResolver " + this.getClass().getName() + " loaded");
 
         return new StandardServletMultipartResolver();
+    }
+
+    /**
+     * Configure Converter to be used.
+     * In our example, we need a converter to convert string values[Roles] to UserProfiles in newUser.jsp
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(roleToUserProfileConverter);
+    }
+
+    /**
+     * Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
+     * It's a known bug in Spring [https://jira.spring.io/browse/SPR-6164], still present in Spring 4.1.7.
+     * This is a workaround for this issue.
+     */
+    @Override
+    public void configurePathMatch(PathMatchConfigurer matcher) {
+        matcher.setUseRegisteredSuffixPatternMatch(true);
     }
 
 }

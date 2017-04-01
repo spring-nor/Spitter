@@ -97,35 +97,4 @@ public class DataConfig {
         return tm;
     }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        return new EmbeddedDatabaseBuilder()
-//                .build();
-//    }
-
-//    @Bean
-//    public JdbcOperations jdbcTemplate() {
-//        return new JdbcTemplate();
-//    }
-
-//    @Bean
-//    public SpittleRepositoryImpl spittleRepository(JdbcOperations jdbc) {
-//        return new SpittleRepositoryImpl(jdbc);
-//    }
-
-//    @Bean
-//    public List<Spittle> spittles() {
-//        return new ArrayList<Spittle>();
-//    }
-
-//    @Bean
-//    public SpittleRepository spittleRepository() {
-//        return new SpittleRepositoryImpl();
-//    }
-//
-//    @Bean
-//    public SpitterRepository spitterRepository() {
-//        return new SpitterRepositoryImpl();
-//    }
-
 }
