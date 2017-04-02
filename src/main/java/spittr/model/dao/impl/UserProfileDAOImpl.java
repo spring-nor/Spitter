@@ -1,14 +1,10 @@
 package spittr.model.dao.impl;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import spittr.model.dao.IUserProfileDAO;
-import spittr.model.entity.Spitter;
-import spittr.model.entity.Spitter_;
 import spittr.model.entity.UserProfile;
 import spittr.model.entity.UserProfile_;
 
@@ -35,7 +31,7 @@ public class UserProfileDAOImpl extends AbstractDAOImpl<Long, UserProfile> imple
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<UserProfile> criteria = builder.createQuery(UserProfile.class);
         Root<UserProfile> userProfileRoot = criteria.from(UserProfile.class);
-        criteria.from(UserProfile.class);
+//        criteria.from(UserProfile.class);
         criteria.orderBy(builder.asc(userProfileRoot.get("type")));
         List<UserProfile> userProfile = session.createQuery(criteria).getResultList();
         session.close();
@@ -53,7 +49,7 @@ public class UserProfileDAOImpl extends AbstractDAOImpl<Long, UserProfile> imple
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<UserProfile> criteria = builder.createQuery(UserProfile.class);
         Root<UserProfile> userProfileRoot = criteria.from(UserProfile.class);
-        criteria.from(UserProfile.class);
+//        criteria.from(UserProfile.class);
         criteria.where(builder.equal(userProfileRoot.get(UserProfile_.type), type));
 
         TypedQuery<UserProfile> typed = session.createQuery(criteria);

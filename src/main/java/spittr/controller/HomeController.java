@@ -51,11 +51,11 @@ public class HomeController {
     AuthenticationTrustResolver authenticationTrustResolver;
 
 
-    @RequestMapping(method = GET)
-    public String home(Model model) {
-        logger.debug("--------------HomeController");
-        return "home";
-    }
+//    @RequestMapping(method = GET)
+//    public String home(Model model) {
+//        logger.debug("--------------HomeController");
+//        return "home";
+//    }
 
     /**
      * This method will list all existing users.

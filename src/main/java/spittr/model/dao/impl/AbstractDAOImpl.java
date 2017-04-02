@@ -1,4 +1,5 @@
 package spittr.model.dao.impl;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,15 +69,15 @@ public abstract class AbstractDAOImpl<PK extends Serializable, T> {
 //        getSession().delete(entity);
     }
 
-//    protected Criteria createEntityCriteria(){
-//        Session session = sessionFactory.openSession();
-//        session.beginTransaction();
-//        Criteria resoult = session.createCriteria(persistentClass);
+    protected Criteria createEntityCriteria(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Criteria resoult = session.createCriteria(persistentClass);
 //        session.close();
-//        return resoult;
-//
-////        return getSession().createCriteria(persistentClass);
-//    }
+        return resoult;
+
+//        return getSession().createCriteria(persistentClass);
+    }
 
 
 }
