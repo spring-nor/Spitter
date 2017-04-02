@@ -21,6 +21,8 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -54,43 +56,44 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Value("${spring.profiles.active}")
     String spring_profiles_active;
 
-//    @Bean
-//    public ViewResolver viewResolver() {
-//        logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/views/");
-//        resolver.setSuffix(".jsp");
-//        resolver.setViewClass(org.springframework.web.servlet.view.JstlView.class);
-//        return resolver;
-//    }
+    @Bean
+    public ViewResolver viewResolver() {
+        logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setViewClass(JstlView.class);
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(org.springframework.web.servlet.view.JstlView.class);
+        return resolver;
+    }
 
     //    @Bean
 //    public ViewResolver viewResolver() {
 //        return new TilesViewResolver();
 //    }
 
-    @Bean
-    @Qualifier("web_config")
-    public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
-        logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");
-
-
-        logger.debug("getActiveProfiles: " + applicationContext.getEnvironment().getActiveProfiles()[0]);
-        logger.debug(">>>>>>>>>>> env : " + env);
-
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine);
-        return viewResolver;
-    }
-
-    @Bean
-    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
-        logger.debug("----------------------templateEngine " + this.getClass().getName() + " loaded");
-
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        return templateEngine;
-    }
+//    @Bean
+//    @Qualifier("web_config")
+//    public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
+//        logger.debug("----------------------Bean viewResolver " + this.getClass().getName() + " loaded");
+//
+//
+//        logger.debug("getActiveProfiles: " + applicationContext.getEnvironment().getActiveProfiles()[0]);
+//        logger.debug(">>>>>>>>>>> env : " + env);
+//
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine);
+//        return viewResolver;
+//    }
+//
+//    @Bean
+//    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
+//        logger.debug("----------------------templateEngine " + this.getClass().getName() + " loaded");
+//
+//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.setTemplateResolver(templateResolver);
+//        return templateEngine;
+//    }
 
     @Bean
     public TemplateResolver templateResolver() {
