@@ -15,10 +15,10 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
-//import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 import java.util.Map;
+
+//import javax.persistence.metamodel.Metamodel;
 
 /**
  * Created by norman on 30/03/17.
