@@ -3,7 +3,7 @@
 <%@ page session="false" %>
 <html>
   <head>
-    <title>Spittr</title>
+    <title>Pentaho</title>
     <link rel="stylesheet" 
           type="text/css" 
           href="<s:url value="/resources/style.css" />" >

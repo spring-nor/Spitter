@@ -10,7 +10,7 @@ repositories {
 
 
 allprojects {
-    group = 'spittr'
+    group = 'pentaho'
     version '1.0-SNAPSHOT'
 
     apply plugin: 'idea'
@@ -25,11 +25,11 @@ allprojects {
 }
 
 war {
-    baseName = 'spittr'
-//    archiveName "spittr.war"
+    baseName = 'pentaho'
+//    archiveName "pentaho.war"
 }
 
-description = 'Gradle Profiles Spitter'
+description = 'Gradle Profiles Pentaho'
 
 //sourceSets {
 //    // Define new source set
@@ -193,7 +193,7 @@ dependencies {
 
 //task prodRun(type: War) {
 //    println "----------------Running prodRun task"
-//    archiveName "spittr.war"
+//    archiveName "pentaho.war"
 ////    prodClassesDir = sourceSets.prod.output.classesDir
 //    sourceSets {
 //        prod {

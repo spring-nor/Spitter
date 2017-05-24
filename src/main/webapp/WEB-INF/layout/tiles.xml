@@ -13,6 +13,14 @@
         <put-attribute name="body" value="/WEB-INF/views/home.jsp"/>
     </definition>
 
+    <definition name="pentaho" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/pentaho.jsp"/>
+    </definition>
+
+    <definition name="report" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/report.jsp"/>
+    </definition>
+
     <definition name="registerForm" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/registerForm.jsp"/>
     </definition>

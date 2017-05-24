@@ -6,8 +6,8 @@ def propertyDrivenProfiles
 task runDevProfile(type: War) {
 //    println "----------------Running runDevProfile task wirh target environment: $env"
     war {
-        baseName = 'spittr'
-        archiveName "spittr.war"
+        baseName = 'pentaho'
+        archiveName "pentaho.war"
     }
     System.setProperty("spring.profiles.active", "dev")
     if (project.hasProperty('env')) {
