@@ -4,7 +4,7 @@
 <%@ page session="false" %>
 <html>
   <head>
-    <title>Spitter</title>
+    <title>Pentaho</title>
     <link rel="stylesheet"
           type="text/css"
           href="<c:url value="/resources/style.css" />" >
