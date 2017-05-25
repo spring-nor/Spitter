@@ -21,6 +21,10 @@
         <put-attribute name="body" value="/WEB-INF/views/report.jsp"/>
     </definition>
 
+    <definition name="test" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/test.html"/>
+    </definition>
+
     <definition name="registerForm" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/registerForm.jsp"/>
     </definition>

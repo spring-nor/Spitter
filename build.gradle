@@ -54,8 +54,6 @@ description = 'Gradle Profiles Pentaho'
 //}
 
 
-
-
 dependencies {
     configurations.all {
 //        exclude group: "commons-logging", module: "commons-logging"
@@ -83,11 +81,19 @@ dependencies {
 //    compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
 
 
-
     compile(group: 'org.springframework', name: 'spring-orm', version: '5.0.0.M3')
 
     compile "org.springframework:spring-webmvc:5.0.0.M3"
 //    compile "org.springframework:spring-jdbc:5.0.0.M3"
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-web
+    compile group: 'org.springframework', name: 'spring-web', version: '5.0.0.M3'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0.pr3'
+
+// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+
 
 
     compile(group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '2.1.2.RELEASE')
@@ -125,6 +131,9 @@ dependencies {
     providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
 //    providedCompile "javax.servlet.jsp:jsp-api:$jspApiVersion
     compile group: 'junit', name: 'junit', version: '4.12'
+
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
 
     providedCompile "javax.el:javax.el-api:$jspElVersion"
 
