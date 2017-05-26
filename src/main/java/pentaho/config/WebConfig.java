@@ -161,15 +161,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        return builder.build();
 //    }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-
-        Proxy proxy= new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.20.101.230", 8081));
-        requestFactory.setProxy(proxy);
-
-        return new RestTemplate(requestFactory);
-    }
+//    @Bean
+//    public RestTemplate restTemplate() {
+//        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//
+//        Proxy proxy= new Proxy(Proxy.Type.HTTP, new InetSocketAddress("www.google.com", 8081));
+//        requestFactory.setProxy(proxy);
+//
+//        return new RestTemplate(requestFactory);
+//    }
 
 //    @Bean
 //    public RestTemplate restTemplate() {

@@ -1,17 +1,15 @@
 package pentaho.controller;
 
-import com.sun.xml.internal.org.jvnet.mimepull.Header;
+import org.apache.http.Header;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,19 +20,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/pentaho")
 public class PentahoController {
     private final Logger logger = LogManager.getLogger(PentahoController.class);
 
-    @Autowired
-    RestTemplate restTemplate;
+//    @Autowired
+//    RestTemplate restTemplate;
 
     @RequestMapping(method = RequestMethod.GET)
     public String spittles(Model model) {
@@ -61,15 +55,21 @@ public class PentahoController {
 //    }
 
 
-    HttpHeaders createHeaders(String auth, String host, String referer) {
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(Model model) {
+        return "test";
+    }
+
+    HttpHeaders createHeaders(String auth, String host, String referer, String connection) {
         return new HttpHeaders() {{
 //            String auth = username + ":" + password;
 //            byte[] encodedAuth = Base64.encodeBase64(
 //                    auth.getBytes(Charset.forName("US-ASCII")));
 //            String authHeader = "Basic " + new String(encodedAuth);
             set("Authorization", auth);
-            set("host", host);
+            set("Host", host);
             set("Referer", referer);
+            set("Connection", connection);
         }};
     }
 
@@ -80,97 +80,69 @@ public class PentahoController {
         }};
     }
 
+    HttpHeaders createHeaders(String auth, String referer, String connection) {
+        return new HttpHeaders() {{
+            set("Authorization", auth);
+            set("Referer", referer);
+            set("Connection", connection);
+        }};
+    }
+
+
     private static String PENTAHO_URL = "http://localhost:8080";
     private static String BASIC_AUTH = "Basic QWRtaW46cGFzc3dvcmQ=";
     private static String HOST = "http://localhost:8080/pentaho";
-    private static String REFERER = "http://localhost:8080/pentaho";
-
-
-    private String server = "10.20.101.230";
-    private int port = 8080;
+    private static String REFERER = "http://localhost:8081/pentaho";
+    private static String CONNECTION = "keep-alive";
 
 
     //http://localhost:8080/pentaho/post
     @RequestMapping(value = "/**", method = RequestMethod.GET)
-    public String doProxy(Model model,
-                          HttpServletRequest request,
-                          HttpServletResponse response) throws URISyntaxException {
-
-//        RestTemplate restTemplate = new RestTemplate();
-
-//        HttpHeaders headers = createHeaders(BASIC_AUTH, REFERER);
-//        HttpEntity<?> httpRequest = new HttpEntity<>(headers);
-//
-//
-//        URI uri = new URI("http", null, server, port, request.getRequestURI(), request.getQueryString(), null);
-//        ResponseEntity<String> responseEntity =
-//                restTemplate.exchange(uri, HttpMethod.GET, httpRequest, String.class);
-//
-//        return responseEntity.getBody();
+    public void doProxy(Model model,
+                        HttpServletRequest request,
+                        HttpServletResponse response) throws URISyntaxException, IOException {
 
         String uri = request.getRequestURI();
-        String url = uri.replace("/proxy", "");
-        HttpHeaders headers = createHeaders(BASIC_AUTH, REFERER);
-////        headers.setContentType(MediaType.APPLICATION_JSON);
-//
-//
-////        Map bodyMap = new HashMap();
-////        bodyMap.put("j_username", "Suzy");
-////        bodyMap.put("j_password", "password");
-////        HttpEntity<?> httpRequest = new HttpEntity<>(bodyMap, headers);
-//
-//        HttpEntity<?> httpRequest = new HttpEntity<>(headers);
-//        RestTemplate restTemplate = new RestTemplate();
-////        ResponseEntity<String> httpResponce = restTemplate.exchange(PENTAHO_URL + url, HttpMethod.GET, httpRequest, String.class);
-//
-//        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-//        InetSocketAddress address = new InetSocketAddress("http://10.20.101.230", 8080);
-//        Proxy proxy = new Proxy(Proxy.Type.HTTP, address);
-//        factory.setProxy(proxy);
-//        restTemplate.setRequestFactory(factory);
-//
-//
-//        ResponseEntity<Resource> responseEntity = restTemplate.exchange(url, HttpMethod.GET,httpRequest, Resource.class);
-//
-//        InputStream responseInputStream;
-//        try {
-//
-//            response.getOutputStream().print(responseEntity.getBody().getInputStream().toString());
-//
-////            responseInputStream = responseEntity.getBody().getInputStream();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        HttpHeaders headers = createHeaders(BASIC_AUTH, REFERER, CONNECTION);
+
+        HttpEntity<?> httpRequest = new HttpEntity<>(headers);
+//        ResponseEntity<String> httpResponce = restTemplate.exchange(PENTAHO_URL + url, HttpMethod.GET, httpRequest, String.class);
+
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 8081));
+        requestFactory.setProxy(proxy);
+
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        restTemplate.setRequestFactory(requestFactory);
+
+        ResponseEntity<Resource> responseEntity = restTemplate.exchange("http://www.google.it", HttpMethod.GET, httpRequest, Resource.class);
+
+        MediaType contentType = responseEntity.getHeaders().getContentType();
+        String contentTypeName = contentType.getType();
+        String contentTypevalue = contentType.getSubtype();
 
 
-//        HttpHeaders respHeaders = responce.getHeaders();
-//        String location = respHeaders.getFirst("Location");
-//        String[] locs = location.split(";");
-//        String path = locs[0];
+        BufferedReader rd = new BufferedReader(
+                new InputStreamReader(responseEntity.getBody().getInputStream()));
+        StringBuffer result = new StringBuffer();
+        String line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
 
+//        response.setHeader(contentTypeName, contentTypevalue);
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");
 
-//        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-//        Map map = new HashMap<String, String>();
-//        map.put("Content-Type", "application/x-www-form-urlencoded");
-//
-//        headers.setAll(map);
-//
-//        Map req_payload = new HashMap();
-//        req_payload.put("j_username", "Admin");
-//        req_payload.put("j_password", "password");
-//
-//        HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
-//        String url = "http://localhost:8080/pentaho/j_spring_security_check";
-//
-//        ResponseEntity<?> response = new RestTemplate().postForEntity(url, request, String.class);
-//
-//        HttpStatus statusCode = response.getStatusCode();
-//        int statusCodeValue = response.getStatusCodeValue();
-//        Object body = response.getBody();
-//        HttpHeaders httpHeaders = response.getHeaders();
+        try {
 
-//        return "redirect:http://localhost:8080" + path;
-        return null;
+            response.getOutputStream().print(result.toString());
+            response.getOutputStream().close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        return null;
     }
 
 }
