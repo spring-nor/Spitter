@@ -24,11 +24,11 @@ public class ProxyController {
     private final Logger logger = LogManager.getLogger(ProxyController.class);
 
 
-    private static String PENTAHO_URL = "http://localhost:8080/pentaho";
+    private static String PENTAHO_URL = "http://localhost:8080";
     private static String BASIC_AUTH = "Basic QWRtaW46cGFzc3dvcmQ=";
 
     @RequestMapping(value = "/**", method = RequestMethod.GET)
-    public String doProxy(Model model,
+    public void doProxy(Model model,
                           HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -36,6 +36,8 @@ public class ProxyController {
 
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(PENTAHO_URL + pentahoRequest);
+
+
 //        httpGet.setHeader("Host","http://localhost:8080/pentaho");
         httpGet.setHeader("Connection", "keep-alive");
         httpGet.setHeader("Authorization", BASIC_AUTH);
@@ -54,13 +56,12 @@ public class ProxyController {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
-//        response.setHeader("Content-Type", "text/html;charset=UTF-8");
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");
 
-        response.setHeader(contentType.getName(), contentType.getValue());
+//        response.setHeader(contentType.getName(), contentType.getValue());
 
         response.getOutputStream().print(result.toString());
         response.getOutputStream().close();
-        return null;
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)

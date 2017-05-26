@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,16 +32,17 @@ public class PentahoController {
 //    RestTemplate restTemplate;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String spittles(Model model) {
+    public String spittles(ModelAndView mav) {
 
-        logger.debug("--------------PentahoController pentaho");
 
         return "pentaho";
     }
 
     //http://localhost:8080/pentaho/report
     @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public String showSpittle(Model model) {
+    public String showSpittle(HttpServletRequest request) {
+        logger.info(request.getAttribute("startTime"));
+
         return "report";
     }
 
