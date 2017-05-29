@@ -43,7 +43,10 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by norman on 26/05/17.
@@ -358,6 +361,7 @@ public class ReportController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Resource> responseEntity = restTemplate.exchange
                 (resultUrl, HttpMethod.POST, httpRequest, Resource.class);
+
         List<String> cookies = responseEntity.getHeaders().get("Set-Cookie");
         if (cookies.size() > 0) {
             String[] cookieResp = cookies.get(0).toString().split(";");
@@ -379,7 +383,6 @@ public class ReportController {
             HttpSession session = request.getSession(true);
             response.addCookie(cookie);
 
-
         }
 
 
@@ -391,6 +394,19 @@ public class ReportController {
         return "report";
     }
 
+
+    private static final String SET_COOKIE = "Set-Cookie";
+    private static final String COOKIE_VALUE_DELIMITER = ";";
+    private static final char NAME_VALUE_SEPARATOR = '=';
+
+
+    @RequestMapping(value = "/restBaseAuth/**", method = RequestMethod.GET)
+    public String restBaseAuth(Model model,
+                               HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+
+        return "report";
+    }
 
 }
 

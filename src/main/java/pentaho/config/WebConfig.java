@@ -159,7 +159,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new PentahoLoginInterceptor()).addPathPatterns("/pentaho/report");
+        registry.addInterceptor(new PentahoLoginInterceptor()).addPathPatterns("/report/restBaseAuth");
     }
 
     //    @Bean
