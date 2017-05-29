@@ -31,8 +31,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +43,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Created by norman on 26/05/17.
@@ -227,20 +230,6 @@ public class ReportController {
 //        }
 
 
-        try {
-            String url_str = PENTAHO_URL + uri;
-            URL url = new URL(url_str);
-            String urlBaseNam = FilenameUtils.getBaseName(url.getPath());
-            String urlExtension = FilenameUtils.getExtension(url.getPath());
-            String urlName = FilenameUtils.getName(url.getPath());
-            if (!urlExtension.equals("css") && !urlExtension.equals("")) {
-                logger.info(request.getAttribute(urlName));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         // Gets a ticket from Pentaho
 
         // Creates a CredentialProvider for Basic authentication
@@ -279,7 +268,24 @@ public class ReportController {
             result.append(line);
         }
 
+        try {
+            String url_str = PENTAHO_URL + uri;
+            URL url = new URL(url_str);
+            String urlBaseNam = FilenameUtils.getBaseName(url.getPath());
+            String urlExtension = FilenameUtils.getExtension(url.getPath());
+            String urlName = FilenameUtils.getName(url.getPath());
+            if (!urlExtension.equals("css") && !urlExtension.equals("")) {
+                logger.info(request.getAttribute(urlName));
+
+//                response.setHeader(contentType.getName(), "text/javascript");
+            } else {
+//                response.setHeader(contentType.getName(), contentType.getValue());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         response.setHeader(contentType.getName(), contentType.getValue());
+
 
         response.getOutputStream().print(result.toString());
         response.getOutputStream().close();
@@ -334,6 +340,58 @@ public class ReportController {
         RedirectView redirectView = new RedirectView(targetUrl + "&autologin=true&ticket=" + ticketId);
         return redirectView;
     }
+
+    @RequestMapping(value = "/login/**", method = RequestMethod.GET)
+    public String obtainCookie(Model model,
+                               HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+//        String pentaho_request_url = uri.replace("/report/login", "/pentaho/j_spring_security_check?j_username=Admin&j_password=password");
+
+
+        String login = "/pentaho/j_spring_security_check?j_username=Admin&j_password=password";
+        String resultUrl = java.net.URLDecoder.decode(PENTAHO_URL + login, "UTF-8");
+        HttpHeaders headers = createHeaders(BASIC_AUTH, REFERER, CONNECTION);
+        HttpEntity<?> httpRequest = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Resource> responseEntity = restTemplate.exchange
+                (resultUrl, HttpMethod.POST, httpRequest, Resource.class);
+        List<String> cookies = responseEntity.getHeaders().get("Set-Cookie");
+        if (cookies.size() > 0) {
+            String[] cookieResp = cookies.get(0).toString().split(";");
+
+            String cookiesContenuto = null;
+            for (String c : cookieResp) {
+                if (c.contains("JSESSION")) {
+                    String[] cook = c.split("=");
+                    String cookiesName = cook[0];
+                    cookiesContenuto = cook[1];
+                }
+                logger.info(c);
+
+            }
+
+            Cookie cookie = new Cookie("JSESSIONID", cookiesContenuto);
+            cookie.setPath("/pentaho");
+            cookie.setDomain("localhost");
+            HttpSession session = request.getSession(true);
+            response.addCookie(cookie);
+
+
+        }
+
+
+//        JSESSIONID
+//
+//        HttpSession session = request.getSession(true);
+
+
+        return "report";
+    }
+
+
 }
 
 
